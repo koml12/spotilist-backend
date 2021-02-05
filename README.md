@@ -2,6 +2,10 @@
 Backend for the Spotilist application. Functions as an abstraction layer around the Spotify API for now.
 
 ## Running the project
+* Clone the project
+* Make a copy of `.env.template`, called `.env`.
+  * Fill in `DB_NAME`, `DB_USERNAME`, and `DB_PASSWORD` to whatever values you want
+  * Use the Spotify developer dashboard to create an app, and put your client ID, client secret, and a single callback URI in for the remaining properties
 * To start the database, run `docker-compose up` from the project directory
 * Run `yarn knex migrate:latest` to populate the database schema
 * To start the application using TypeScript directly, run `yarn start`
