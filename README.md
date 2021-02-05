@@ -21,7 +21,7 @@ Backend for the Spotilist application. Functions as an abstraction layer around 
   * `yarn test:integration` to only run integration tests
   * `yarn test:coverage` for test coverage
   
- ## Quality of Life Improvements (for easier development)
+ ## TODO: Quality of Life Improvements (for easier development)
  * Make seed files to start up the DB with some data
  * Commands to clean up the `dist` folder after it is generated
  * Running tests in watch mode
