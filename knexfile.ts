@@ -2,7 +2,7 @@
 
 require("dotenv").config();
 
-module.exports = {
+export const development = {
   client: "postgresql",
   connection: {
     database: process.env.DB_NAME,

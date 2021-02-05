@@ -6,6 +6,11 @@ import "reflect-metadata";
 import express from "express";
 import SpotifyWebApi from "spotify-web-api-node";
 
+import { User, UserService } from "./user";
+import { container } from "tsyringe";
+
+const userService = container.resolve(UserService);
+
 const app = express();
 const port = process.env.PORT || "8000";
 
@@ -39,21 +44,38 @@ app.get("/callback", async (req, res) => {
 
   try {
     const data = await api.authorizationCodeGrant(code);
-    const access_token = data.body["access_token"];
-    const refresh_token = data.body["refresh_token"];
-    const expires_in = data.body["expires_in"];
+    const accessToken = data.body["access_token"];
+    const refreshToken = data.body["refresh_token"];
+    const expiresIn = data.body["expires_in"];
+    const expirationDate = new Date();
+    expirationDate.setTime(expirationDate.getTime() + expiresIn * 1000);
 
-    api.setAccessToken(access_token);
-    api.setRefreshToken(refresh_token);
+    api.setAccessToken(accessToken);
+    api.setRefreshToken(refreshToken);
 
     const me = await api.getMe();
-    console.log(me);
+
+    const user = await userService.createUser(
+      new User(undefined, me.body.id, accessToken, refreshToken, expirationDate)
+    );
+    console.log(user);
 
     res.redirect(callback);
   } catch (error) {
     console.log("error: ", error);
     res.redirect(callback);
   }
+});
+
+app.get("/users", async (_req, res) => {
+  const users = await userService.getAllUsers();
+  res.json(JSON.parse(JSON.stringify(users)));
+});
+
+app.delete("/users/:spotifyId", async (req, res) => {
+  const spotifyId = req.params.spotifyId;
+  await userService.deleteUser(spotifyId);
+  return res.sendStatus(204);
 });
 
 app.listen(port, () => console.log(`Server is listening on ${port}`));

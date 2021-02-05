@@ -4,3 +4,5 @@ TODO.md
 .env
 .DS_STORE
 .vscode/
+yarn-error.log
+coverage/

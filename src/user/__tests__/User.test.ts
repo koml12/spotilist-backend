@@ -1,5 +1,8 @@
 import User from "../User";
 
+/**
+ * @group unit
+ */
 describe("User", () => {
   describe("constructor", () => {
     it("should create a new user", () => {
