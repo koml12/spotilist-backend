@@ -10,5 +10,5 @@ module.exports = {
   runner: "groups",
   setupFiles: ["./test/setupTests.ts"],
   collectCoverageFrom: ["src/**/*.ts"],
-  coveragePathIgnorePatterns: ["index.ts", "routes.ts"],
+  coveragePathIgnorePatterns: ["index.ts", "getRoutes.ts"],
 };

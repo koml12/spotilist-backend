@@ -7,7 +7,7 @@ import "reflect-metadata";
 import express from "express";
 import SpotifyWebApi from "spotify-web-api-node";
 
-import { User, UserService } from "./user";
+import { User, UserService, getUserRoutes } from "./user";
 import { container } from "tsyringe";
 
 const userService = container.resolve(UserService);
@@ -66,15 +66,6 @@ app.get("/callback", async (req, res) => {
   }
 });
 
-app.get("/users", async (_req, res) => {
-  const users = await userService.getAllUsers();
-  res.json(JSON.parse(JSON.stringify(users)));
-});
-
-app.delete("/users/:spotifyId", async (req, res) => {
-  const spotifyId = req.params.spotifyId;
-  await userService.deleteUser(spotifyId);
-  return res.sendStatus(204);
-});
+app.use("/users", getUserRoutes());
 
 app.listen(port, () => console.log(`Server is listening on ${port}`));

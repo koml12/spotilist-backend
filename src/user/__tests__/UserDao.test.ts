@@ -27,7 +27,7 @@ describe("UserDao", () => {
     foundUser = await userDao.getUserBySpotifyId("invalid");
     expect(foundUser).toBeUndefined();
 
-    await userDao.deleteUser(null);
+    await userDao.deleteUser(undefined);
     users = await userDao.getAllUsers();
     expect(users.map((u) => u["spotify_id"])).toContain("spotifyID");
 

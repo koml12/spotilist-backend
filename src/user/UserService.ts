@@ -19,9 +19,9 @@ class UserService {
     return user;
   }
 
-  async getUserBySpotifyId(spotifyId: string): Promise<User | null> {
+  async getUserBySpotifyId(spotifyId: string): Promise<User | undefined> {
     const user = await this.userDao.getUserBySpotifyId(spotifyId);
-    return user ? User.prototype.deserialize(user) : null;
+    return user ? User.prototype.deserialize(user) : undefined;
   }
 
   async deleteUser(spotifyId: string): Promise<void> {

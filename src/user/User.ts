@@ -45,6 +45,16 @@ class User implements Serializable<UserObject> {
     this.expirationDate = obj.expiration_date;
     return this;
   }
+
+  equals(obj: UserObject): boolean {
+    return (
+      this.id === obj.id &&
+      this.spotifyId === obj.spotify_id &&
+      this.authToken === obj.auth_token &&
+      this.refreshToken === obj.refresh_token &&
+      this.expirationDate === obj.expiration_date
+    );
+  }
 }
 
 export default User;

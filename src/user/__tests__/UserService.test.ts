@@ -80,7 +80,7 @@ describe("UserService", () => {
       const userService = container.resolve(UserService);
 
       const foundUser = await userService.getUserBySpotifyId("invalid");
-      expect(foundUser).toBeNull();
+      expect(foundUser).toBeFalsy();
     });
   });
 

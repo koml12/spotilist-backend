@@ -33,8 +33,8 @@ class UserDao extends Dao<UserObject> {
       : undefined;
   }
 
-  async deleteUser(user: User | null): Promise<void> {
-    if (user != null) {
+  async deleteUser(user: User | undefined): Promise<void> {
+    if (user) {
       await this.getDbClient().delete().where({ spotify_id: user.spotifyId });
     }
   }
