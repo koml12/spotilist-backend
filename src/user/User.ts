@@ -1,6 +1,7 @@
-import Entity from "../common/Entity";
+import { Serializable } from "../common";
+import UserObject from "./UserObject";
 
-class User extends Entity {
+class User implements Serializable<UserObject> {
   id?: number;
   spotifyId: string;
   authToken: string;
@@ -14,7 +15,6 @@ class User extends Entity {
     refreshToken: string,
     expirationDate: Date
   ) {
-    super();
     this.id = id;
     this.spotifyId = spotifyId;
     this.authToken = authToken;
@@ -27,7 +27,7 @@ class User extends Entity {
     return now / 1000 > this.expirationDate.getTime() / 1000;
   }
 
-  serialize(): Record<string, unknown> {
+  serialize(): UserObject {
     return {
       id: this.id,
       spotify_id: this.spotifyId,
@@ -35,6 +35,15 @@ class User extends Entity {
       refresh_token: this.refreshToken,
       expiration_date: this.expirationDate,
     };
+  }
+
+  deserialize(obj: UserObject): this {
+    this.id = obj.id;
+    this.spotifyId = obj.spotify_id;
+    this.authToken = obj.auth_token;
+    this.refreshToken = obj.refresh_token;
+    this.expirationDate = obj.expiration_date;
+    return this;
   }
 }
 

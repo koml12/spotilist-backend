@@ -1,20 +1,20 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { injectable } from "tsyringe";
 import Dao from "../db/Dao";
 import User from "./User";
+import UserObject from "./UserObject";
 
 @injectable()
-class UserDao extends Dao {
+class UserDao extends Dao<UserObject> {
   getTableName(): string {
     return "user";
   }
 
-  async getAllUsers(): Promise<any[]> {
+  async getAllUsers(): Promise<UserObject[]> {
     const users = await this.getDbClient().select();
-    return users;
+    return users.map((user: unknown) => (user as unknown) as UserObject);
   }
 
-  async createUser(user: User): Promise<any> {
+  async createUser(user: User): Promise<UserObject> {
     const userJson = await this.getDbClient()
       .insert({
         spotify_id: user.spotifyId,
@@ -23,13 +23,14 @@ class UserDao extends Dao {
         expiration_date: user.expirationDate,
       })
       .returning("*");
-    return userJson;
+    return (userJson as unknown) as UserObject;
   }
 
-  async getUserBySpotifyId(
-    spotifyId: string
-  ): Promise<Record<string, unknown> | undefined> {
-    return (await this.findByCriteria({ spotify_id: spotifyId }))[0];
+  async getUserBySpotifyId(spotifyId: string): Promise<UserObject | undefined> {
+    const users = await this.findByCriteria({ spotify_id: spotifyId });
+    return typeof users[0] !== "undefined"
+      ? (users[0] as UserObject)
+      : undefined;
   }
 
   async deleteUser(user: User | null): Promise<void> {

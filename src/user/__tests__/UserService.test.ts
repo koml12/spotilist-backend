@@ -43,7 +43,14 @@ describe("UserService", () => {
     it("should set the ID of the user after creation", async () => {
       let user = new User(undefined, "spotify", "auth", "refresh", new Date());
 
-      MockUserDao.prototype.createUser = async () => Promise.resolve({ id: 1 });
+      MockUserDao.prototype.createUser = async () =>
+        Promise.resolve({
+          id: 1,
+          spotify_id: "spotifyID",
+          auth_token: "auth",
+          refresh_token: "refresh",
+          expiration_date: new Date(),
+        });
 
       const userService = container.resolve(UserService);
 

@@ -9,34 +9,24 @@ class UserService {
   async getAllUsers(): Promise<User[]> {
     const userJson = await this.userDao.getAllUsers();
     return userJson.map((user) => {
-      return this.toEntity(user);
+      return User.prototype.deserialize(user);
     });
   }
 
   async createUser(user: User): Promise<User> {
     const userJson = await this.userDao.createUser(user);
-    user.id = userJson["id"];
+    user.id = userJson.id;
     return user;
   }
 
   async getUserBySpotifyId(spotifyId: string): Promise<User | null> {
     const user = await this.userDao.getUserBySpotifyId(spotifyId);
-    return user ? this.toEntity(user) : null;
+    return user ? User.prototype.deserialize(user) : null;
   }
 
   async deleteUser(spotifyId: string): Promise<void> {
     const user = await this.getUserBySpotifyId(spotifyId);
     await this.userDao.deleteUser(user);
-  }
-
-  private toEntity(user: Record<string, unknown>): User {
-    return new User(
-      user["id"] as number,
-      user["spotify_id"] as string,
-      user["auth_token"] as string,
-      user["refresh_token"] as string,
-      user["expiration_date"] as Date
-    );
   }
 }
 
