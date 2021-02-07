@@ -3,6 +3,9 @@ import User from "../User";
 import UserDao from "../UserDao";
 import UserService from "../UserService";
 
+/**
+ * @group unit
+ */
 describe("UserService", () => {
   beforeAll(() => {
     container.register<UserDao>(UserDao, MockUserDao);

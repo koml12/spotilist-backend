@@ -11,6 +11,9 @@ class EntityImpl extends Entity {
   }
 }
 
+/**
+ * @group unit
+ */
 describe("Abstract Entity", () => {
   describe("serialize", () => {
     it("should use the normal JSON representation by default", () => {
