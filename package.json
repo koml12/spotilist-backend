@@ -5,12 +5,13 @@
   "author": "Mohit Khattar",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
+    "start": "./scripts/start.sh",
     "build": "tsc",
-    "start:dist": "node dist/index.js",
-    "test": "jest",
-    "test:unit": "jest --group=unit",
-    "test:integration": "jest --group=integration",
+    "start:dist": "./scripts/start-dist.sh",
+    "clean": "rm -rf ./dist",
+    "test": "jest --watchAll",
+    "test:unit": "jest --group=unit --watchAll",
+    "test:integration": "jest --group=integration --watchAll",
     "test:coverage": "jest --coverage",
     "knex": "npx knex"
   },
