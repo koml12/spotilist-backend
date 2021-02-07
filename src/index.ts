@@ -1,4 +1,5 @@
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
 // Enables Dependency Injection in the project
 import "reflect-metadata";
@@ -38,7 +39,6 @@ app.get("/auth/url", (req, res) => {
 });
 
 app.get("/callback", async (req, res) => {
-  console.log(req.query.code);
   const code = "" + req.query.code;
   const callback = "" + req.query.state;
 
@@ -55,14 +55,13 @@ app.get("/callback", async (req, res) => {
 
     const me = await api.getMe();
 
-    const user = await userService.createUser(
+    await userService.createUser(
       new User(undefined, me.body.id, accessToken, refreshToken, expirationDate)
     );
-    console.log(user);
 
     res.redirect(callback);
   } catch (error) {
-    console.log("error: ", error);
+    console.log("Error creating user: ", error);
     res.redirect(callback);
   }
 });

@@ -11,7 +11,6 @@ class UserDao extends Dao {
 
   async getAllUsers(): Promise<any[]> {
     const users = await this.getDbClient().select();
-    console.log(users);
     return users;
   }
 

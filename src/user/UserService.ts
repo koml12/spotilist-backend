@@ -15,7 +15,6 @@ class UserService {
 
   async createUser(user: User): Promise<User> {
     const userJson = await this.userDao.createUser(user);
-    console.log(userJson);
     user.id = userJson["id"];
     return user;
   }
